@@ -1,10 +1,12 @@
 package ua.hillel.antonova.lesson18;
 
+import hillel.antonova.lesson18.Palec;
+
 import java.util.Collection;
 import java.util.Iterator;
 
 public class OwnCollection implements Collection {
-    private Object[] objects;
+    private Object[] objects = new Object[0];
 
     public OwnCollection(Object[] objects) {
         this.objects = objects;
@@ -12,32 +14,19 @@ public class OwnCollection implements Collection {
 
     @Override
     public int size() {
-        if  (objects == null)
-        {
-            return 0;
-        }
-        else {
-            return objects.length;
-        }
 
+            return objects.length;
     }
 
     @Override
     public boolean isEmpty() {
-        if (objects == null)
-        {
-            return true;
-        }
-        else {
-
-            return false;
-        }
+            return size() == 0;
     }
 
     @Override
     public boolean contains(Object o) {
         for(Object obj: objects) {
-            if (obj == o) {
+            if (obj.equals(o)) {
                 return true;
             }
         }
@@ -47,7 +36,10 @@ public class OwnCollection implements Collection {
 
     @Override
     public Iterator iterator() {
-        return null;
+
+
+        }
+        return Palec(Object[]);
     }
 
     @Override
@@ -61,7 +53,13 @@ public class OwnCollection implements Collection {
 
     @Override
     public boolean add(Object o) {
-        return false;
+
+        Object[] newArray = new Object[size() + 1];
+        for (int i = 0; i < size(); i++) {
+            newArray[i] = objects[i];
+        }
+        newArray[size()] = 0;
+        return true;
     }
 
     @Override
@@ -71,11 +69,16 @@ public class OwnCollection implements Collection {
 
     @Override
     public boolean addAll(Collection c) {
+
+        for (Object o: c) {
+            add(o);
+        }
         return false;
     }
 
     @Override
     public void clear() {
+        objects = new Object[0];
 
     }
 
@@ -97,5 +100,31 @@ public class OwnCollection implements Collection {
     @Override
     public Object[] toArray(Object[] a) {
         return new Object[0];
+    }
+
+    public static class Palec implements Iterator {
+
+        private final Object[] objects;
+
+        private int index = 0;
+
+        public Palec(Object[] objects) {
+            this.objects = objects;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < objects.length;
+        }
+
+        @Override
+        public Object next() {
+            if (index == objects.length) {
+                throw new IndexOutOfBoundsException("oh-oh");
+            }
+            Object result = objects[index];
+            index++;
+            return result;
+        }
     }
 }

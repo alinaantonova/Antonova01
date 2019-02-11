@@ -12,5 +12,10 @@ public class Main {
         for (int i = 0; i < ownCollection.size(); i++) {
             System.out.println(ownCollection.toArray()[i]);
         }
+
+        Iterator iterator = ownCollection.iterator();
+        while (iterator.hasNext()) {
+            Object o = iterator.next();
+            System.out.println();
     }
 }
